@@ -80,7 +80,40 @@
 
 template <typename T>
 void LinkedList<T>::insertOrdered(const T& newData) {
+  Node* newNode = new Node(newData);
 
+  if(!this->head_){
+    this->head_ = newNode;
+    this->tail_ = newNode;
+    this->size_ += 1;
+  }
+  if(this->head_->data > newData){
+    newNode->next = this->head_;
+    this->head_->prev = newNode;
+    this->head_ =  newNode;
+    this->size_ += 1;
+    return;
+  }
+  else if (this->tail_->data < newData){
+    newNode->prev = this->tail_;
+    this->tail_->next = newNode;
+    this->tail_ = newNode;
+    this->size_ += 1;    
+    return;
+  }
+  Node* curNode = this->head_;
+  for(int i = 0; i < this->size(); ++i){
+    if(curNode->data < newData && curNode->next->data > newData){
+      newNode->next = curNode->next;
+      curNode->next->prev = newNode;
+      curNode->next = newNode;      
+      newNode->prev = curNode;
+      this->size_ += 1;      
+      break;
+    }
+    curNode = curNode->next;
+  }
+  return;
   // -----------------------------------------------------------
   // TODO: Your code here!
   // -----------------------------------------------------------
@@ -228,7 +261,24 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // -----------------------------------------------------------
   // Please implement this function according to the description
   // above and in the instructions PDF.
-
+  while(left.size()>0 && right.size()>0){
+    if(left.head_->data < right.head_->data){
+      merged.pushBack(left.head_->data);
+      left.popFront();
+    }
+    else{
+      merged.pushBack(right.head_->data);
+      right.popFront();
+    }    
+  }
+  while(left.size()>0){
+      merged.pushBack(left.head_->data);
+      left.popFront();
+  }
+  while(right.size()>0){
+      merged.pushBack(right.head_->data);
+      right.popFront();
+  }  
   // Hints:
   // 1. Assuming that the left and right lists are already sorted, remember
   //    that the smallest items are already available at the front. You can
