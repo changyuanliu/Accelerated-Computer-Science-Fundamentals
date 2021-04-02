@@ -332,19 +332,25 @@ std::vector<T> traverseLevels(GenericTree<T>& tree) {
   // with the .push_back() member function.
 
   // ...
-
+  // Define the current pointer.
   TreeNode* nodePointer = nullptr;
+  // Define the queue of traversed nodes.
   std::queue<TreeNode*> nodeQueue;
+  // Push the root node into the queue.
   nodePointer = rootNodePtr;
-  // results.push_back(nodePointer->data);  
   nodeQueue.push(nodePointer);
+  // Visit every node in the queue. 
   while(!nodeQueue.empty()){
+    // Get the front node in the queue, and add the data into results.
     nodePointer = nodeQueue.front();
     results.push_back(nodePointer->data); 
+    // Get the front node's children pointers.
     std::vector<TreeNode*> nodes = nodePointer->childrenPtrs;
+    // Push every children pointers into the Queue.
     for(TreeNode* p: nodes){
       nodeQueue.push(p);  
-    }    
+    }
+    // After the front node is done, pop it from the queue.
     nodeQueue.pop();
   }
   return results;
