@@ -48,11 +48,13 @@
 // a set of the unique edges only.
 int GridGraph::countEdges() const {
   int numEdges = 0;
-
   // =======================================================================
   // TODO: Your code here!
   // =======================================================================
-
+  for(auto it : this->adjacencyMap){
+    numEdges += it.second.size();
+  }
+  numEdges = numEdges/2;
   return numEdges;
 }
 
@@ -92,6 +94,9 @@ void GridGraph::removePoint(const IntPair& p1) {
   // =======================================================================
   // TODO: Your code here!
   // =======================================================================
+  for(auto k : originalNeighbors){
+    this->removeEdge(p1, k);
+  }
 
   // Finally, for the one point we are removing, erase the point key itself
   // from adjacencyMap directly. (There is no other GridGraph helper function
@@ -101,6 +106,7 @@ void GridGraph::removePoint(const IntPair& p1) {
   // =======================================================================
   // TODO: Your code here!
   // =======================================================================
+  adjacencyMap.erase(p1);
 }
 
 // =========================================================================
